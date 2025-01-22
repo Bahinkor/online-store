@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx tsc && node ./dist/server.js",
-    "dev": "npx tsc && nodemon ./dist/server.js"
+    "dev": "nodemon ./src/server.ts"
   },
   "repository": {
     "type": "github",
@@ -38,6 +38,7 @@
     "eslint": "9.18.0",
     "nodemon": "3.1.9",
     "prettier": "3.4.2",
+    "ts-node": "10.9.2",
     "typescript": "5.7.3"
   }
 }
