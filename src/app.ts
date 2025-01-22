@@ -4,6 +4,7 @@ import helmet from "helmet";
 
 import errorHandlerMiddleware from "./middlewares/errorHandler.middleware";
 import routeNotFoundMiddleware from "./middlewares/notFound.middleware";
+import userRouter from "./modules/users/users.routes";
 
 const app = express();
 
@@ -13,13 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // routes
-app.get("/", (req, res, next) => {
-  try {
-    throw new Error("this is a test error");
-  } catch (e) {
-    next(e);
-  }
-});
+app.use("/api/users", userRouter);
 
 // error handler middlewares
 app.use(routeNotFoundMiddleware);

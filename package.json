@@ -32,6 +32,7 @@
   "devDependencies": {
     "@eslint/js": "9.18.0",
     "@fullstacksjs/eslint-config": "11.5.0",
+    "@types/bcrypt": "5.0.2",
     "@types/cors": "2.8.17",
     "@types/express": "5.0.0",
     "@types/helmet": "4.0.0",
