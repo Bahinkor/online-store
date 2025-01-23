@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { isValidObjectId } from "mongoose";
 
 import type { UserData } from "./types/types";
 
@@ -33,4 +34,16 @@ const getAll = async (limit: number = 10, page: number = 1) => {
   return { users, pagesCount, usersCount, currentPage: page };
 };
 
-export default { create, getAll };
+const getOne = async (userId: string) => {
+  const isValidId: boolean = isValidObjectId(userId);
+
+  if (!isValidId) throw new HttpError("user id is not valid", 400);
+
+  const user = await UserModel.findOne({ _id: userId }).select("-password -__v");
+
+  if (!user) throw new HttpError("user not found", 404);
+
+  return user;
+};
+
+export default { create, getAll, getOne };

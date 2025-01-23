@@ -11,7 +11,7 @@ userRouter
   .post(validatorMiddleware(createUserValidator), usersController.createHandler)
   .get(usersController.getAllHandler);
 
-userRouter.route("/:userId").get().put().delete();
+userRouter.route("/:userId").get(usersController.getOneHandler).put().delete();
 userRouter.route("/ban").get();
 userRouter.route("/ban/userId").post().delete();
 

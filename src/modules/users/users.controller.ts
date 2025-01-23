@@ -27,4 +27,19 @@ const getAllHandler: RequestHandler = async (req: Request, res: Response, next: 
   });
 };
 
-export default { createHandler, getAllHandler };
+const getOneHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.params;
+    const user = await usersService.getOne(userId);
+
+    res.status(200).json({
+      data: user,
+      statusCode: 200,
+      message: "user fetched successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default { createHandler, getAllHandler, getOneHandler };
