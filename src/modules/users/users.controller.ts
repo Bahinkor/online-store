@@ -42,4 +42,18 @@ const getOneHandler: RequestHandler = async (req: Request, res: Response, next: 
   }
 };
 
-export default { createHandler, getAllHandler, getOneHandler };
+const updateHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.params;
+    await usersService.update(userId, req.body);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "user updated successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default { createHandler, getAllHandler, getOneHandler, updateHandler };

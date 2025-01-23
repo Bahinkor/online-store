@@ -46,4 +46,16 @@ const getOne = async (userId: string) => {
   return user;
 };
 
-export default { create, getAll, getOne };
+const update = async (userId: string, userData: object) => {
+  const isValidId: boolean = isValidObjectId(userId);
+
+  if (!isValidId) throw new HttpError("user id is not valid", 400);
+
+  const user = await UserModel.findOneAndUpdate({ _id: userId }, userData);
+
+  if (!user) throw new HttpError("user not found", 404);
+
+  return user;
+};
+
+export default { create, getAll, getOne, update };
