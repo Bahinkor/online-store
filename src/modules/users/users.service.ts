@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 
 import type { UserData } from "./types/types";
 
+import { HttpError } from "../../errorHandler/httpError.handler";
 import UserModel from "./models/User.model";
 
 const create = async (userData: UserData) => {
@@ -9,7 +10,7 @@ const create = async (userData: UserData) => {
 
   const isUserExist = await UserModel.findOne({ email });
 
-  if (isUserExist) return new Error("user already exists");
+  if (isUserExist) throw new HttpError("user already exists", 400);
 
   const hashedPassword: string = await bcrypt.hash(password, 10);
 
