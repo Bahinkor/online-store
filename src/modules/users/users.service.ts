@@ -17,8 +17,20 @@ const create = async (userData: UserData) => {
   return UserModel.create({ ...userData, password: hashedPassword });
 };
 
-const getAll = () => {
-  return UserModel.find().select("-password -__v").lean();
+const getAll = async (limit: number = 10, page: number = 1) => {
+  const skip: number = (page - 1) * limit;
+
+  const users = await UserModel.find()
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .select("-password -__v")
+    .lean();
+
+  const usersCount: number = await UserModel.countDocuments();
+  const pagesCount = Math.ceil(usersCount / limit);
+
+  return { users, pagesCount, usersCount, currentPage: page };
 };
 
 export default { create, getAll };

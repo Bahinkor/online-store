@@ -17,7 +17,8 @@ const createHandler: RequestHandler = async (req: Request, res: Response, next: 
 };
 
 const getAllHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-  const users = await usersService.getAll();
+  const { limit = 10, page = 1 } = req.query;
+  const users = await usersService.getAll(+limit, +page);
 
   res.status(200).json({
     data: users,
