@@ -58,4 +58,16 @@ const update = async (userId: string, userData: object) => {
   return user;
 };
 
-export default { create, getAll, getOne, update };
+const remove = async (userId: string) => {
+  const isValidId: boolean = isValidObjectId(userId);
+
+  if (!isValidId) throw new HttpError("user id is not valid", 400);
+
+  const removedUser = await UserModel.findOneAndDelete({ _id: userId });
+
+  if (!removedUser) throw new HttpError("user is not found", 404);
+
+  return removedUser;
+};
+
+export default { create, getAll, getOne, update, remove };

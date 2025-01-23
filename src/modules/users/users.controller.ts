@@ -56,4 +56,18 @@ const updateHandler: RequestHandler = async (req: Request, res: Response, next: 
   }
 };
 
-export default { createHandler, getAllHandler, getOneHandler, updateHandler };
+const removeHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.params;
+    await usersService.remove(userId);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "User removed successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default { createHandler, getAllHandler, getOneHandler, updateHandler, removeHandler };
