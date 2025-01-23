@@ -72,7 +72,23 @@ const remove = async (userId: string) => {
 };
 
 const getAllBanUsers = () => {
-  return BanUserModel.find().populate("user", "-password -__v");
+  return BanUserModel.find().populate("user", "-password -__v").lean();
 };
 
-export default { create, getAll, getOne, update, remove, getAllBanUsers };
+const banUser = async (userId: string) => {
+  const isValidId: boolean = isValidObjectId(userId);
+
+  if (!isValidId) throw new HttpError("user id is not valid", 400);
+
+  const user = await UserModel.findOne({ _id: userId });
+
+  if (!user) throw new HttpError("user is not found", 404);
+
+  if (user.role === "admin") throw new HttpError("It is not possible to ban an admin user.", 403);
+
+  const bannedUser = await BanUserModel.create({ user: userId });
+
+  return bannedUser;
+};
+
+export default { create, getAll, getOne, update, remove, getAllBanUsers, banUser };

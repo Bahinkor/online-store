@@ -14,7 +14,7 @@ userRouter
 
 userRouter.route("/ban").get(usersController.getAllBanUsersHandler);
 
-userRouter.route("/ban/userId").post().delete();
+userRouter.route("/ban/:userId").post(usersController.banUserHandler).delete();
 
 userRouter
   .route("/:userId")
