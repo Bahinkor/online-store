@@ -17,4 +17,8 @@ const create = async (userData: UserData) => {
   return UserModel.create({ ...userData, password: hashedPassword });
 };
 
-export default { create };
+const getAll = () => {
+  return UserModel.find().select("-password -__v").lean();
+};
+
+export default { create, getAll };

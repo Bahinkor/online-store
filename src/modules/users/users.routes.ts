@@ -6,6 +6,13 @@ import { createUserValidator } from "./validators/createUser.validator";
 
 const userRouter = express.Router();
 
-userRouter.route("/").post(validatorMiddleware(createUserValidator), usersController.createHandler);
+userRouter
+  .route("/")
+  .post(validatorMiddleware(createUserValidator), usersController.createHandler)
+  .get(usersController.getAllHandler);
+
+userRouter.route("/:userId").get().put().delete();
+userRouter.route("/ban").get();
+userRouter.route("/ban/userId").post().delete();
 
 export default userRouter;

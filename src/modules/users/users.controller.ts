@@ -16,4 +16,14 @@ const createHandler: RequestHandler = async (req: Request, res: Response, next: 
   }
 };
 
-export default { createHandler };
+const getAllHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+  const users = await usersService.getAll();
+
+  res.status(200).json({
+    data: users,
+    statusCode: 200,
+    message: "User fetched successfully",
+  });
+};
+
+export default { createHandler, getAllHandler };
