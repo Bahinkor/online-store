@@ -91,4 +91,16 @@ const banUser = async (userId: string) => {
   return bannedUser;
 };
 
-export default { create, getAll, getOne, update, remove, getAllBanUsers, banUser };
+const unBanUser = async (userId: string) => {
+  const isValidId: boolean = isValidObjectId(userId);
+
+  if (!isValidId) throw new HttpError("user id is not valid", 400);
+
+  const removedUser = await BanUserModel.findOneAndDelete({ _id: userId });
+
+  if (!removedUser) throw new HttpError("user is not found", 404);
+
+  return removedUser;
+};
+
+export default { create, getAll, getOne, update, remove, getAllBanUsers, banUser, unBanUser };

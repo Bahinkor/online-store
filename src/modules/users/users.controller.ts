@@ -98,6 +98,20 @@ const banUserHandler = async (req: Request, res: Response, next: NextFunction) =
   }
 };
 
+const unBanUserHandler = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.params;
+    await usersService.unBanUser(userId);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "User unban successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 export default {
   createHandler,
   getAllHandler,
@@ -106,4 +120,5 @@ export default {
   removeHandler,
   getAllBanUsersHandler,
   banUserHandler,
+  unBanUserHandler,
 };
