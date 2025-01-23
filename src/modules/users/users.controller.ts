@@ -70,4 +70,25 @@ const removeHandler: RequestHandler = async (req: Request, res: Response, next: 
   }
 };
 
-export default { createHandler, getAllHandler, getOneHandler, updateHandler, removeHandler };
+const getAllBanUsersHandler: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const banUsers = await usersService.getAllBanUsers();
+
+  res.status(200).json({
+    data: banUsers,
+    statusCode: 200,
+    message: "fetched banned users successfully",
+  });
+};
+
+export default {
+  createHandler,
+  getAllHandler,
+  getOneHandler,
+  updateHandler,
+  removeHandler,
+  getAllBanUsersHandler,
+};

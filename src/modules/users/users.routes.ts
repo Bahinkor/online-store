@@ -12,13 +12,14 @@ userRouter
   .post(validatorMiddleware(createUserValidator), usersController.createHandler)
   .get(usersController.getAllHandler);
 
+userRouter.route("/ban").get(usersController.getAllBanUsersHandler);
+
+userRouter.route("/ban/userId").post().delete();
+
 userRouter
   .route("/:userId")
   .get(usersController.getOneHandler)
   .put(validatorMiddleware(updateUserValidator), usersController.updateHandler)
   .delete(usersController.removeHandler);
-
-userRouter.route("/ban").get();
-userRouter.route("/ban/userId").post().delete();
 
 export default userRouter;

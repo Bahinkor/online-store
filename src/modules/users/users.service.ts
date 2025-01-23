@@ -4,6 +4,7 @@ import { isValidObjectId } from "mongoose";
 import type { UserData } from "./types/types";
 
 import { HttpError } from "../../errorHandler/httpError.handler";
+import BanUserModel from "./models/BanUser.model";
 import UserModel from "./models/User.model";
 
 const create = async (userData: UserData) => {
@@ -70,4 +71,8 @@ const remove = async (userId: string) => {
   return removedUser;
 };
 
-export default { create, getAll, getOne, update, remove };
+const getAllBanUsers = () => {
+  return BanUserModel.find().populate("user", "-password -__v");
+};
+
+export default { create, getAll, getOne, update, remove, getAllBanUsers };
