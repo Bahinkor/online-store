@@ -20,7 +20,7 @@ const loginHandler: RequestHandler = async (req: Request, res: Response, next: N
   try {
     const accessToken: string = await authService.login(req.body);
 
-    res.cookie("access-token", accessToken, {
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     });
