@@ -1,11 +1,14 @@
 import express from "express";
 
+import adminGuard from "../../middlewares/adminGuard.middleware";
+import authGuard from "../../middlewares/authGuard.middleware";
 import { validatorMiddleware } from "../../middlewares/validator.middleware";
 import usersController from "./users.controller";
 import { createUserValidator } from "./validators/createUser.validator";
 import { updateUserValidator } from "./validators/updateUser.validator";
 
 const userRouter = express.Router();
+userRouter.use(authGuard, adminGuard);
 
 userRouter
   .route("/")

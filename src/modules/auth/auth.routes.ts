@@ -15,4 +15,9 @@ authRouter
   .route("/login")
   .post(validatorMiddleware(loginUserValidator), authController.loginHandler);
 
+authRouter.route("/me").get().post();
+authRouter.route("/update-password").post();
+authRouter.route("/forget-password").post();
+authRouter.route("/reset-password").post();
+
 export default authRouter;
