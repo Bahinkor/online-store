@@ -3,6 +3,7 @@ import express from "express";
 import authGuard from "../../middlewares/authGuard.middleware";
 import { validatorMiddleware } from "../../middlewares/validator.middleware";
 import authController from "./auth.controller";
+import { forgetPasswordValidator } from "./validators/forgetPassword.validator";
 import { loginUserValidator } from "./validators/loginUser.validator";
 import { registerUserValidator } from "./validators/registerUser.validator";
 import { updateMeValidator } from "./validators/updateMe.validator";
@@ -31,7 +32,10 @@ authRouter
     authController.updatePasswordHandler,
   );
 
-authRouter.route("/forget-password").post();
+authRouter
+  .route("/forget-password")
+  .post(validatorMiddleware(forgetPasswordValidator), authController.forgetPasswordHandler);
+
 authRouter.route("/reset-password").put();
 
 export default authRouter;

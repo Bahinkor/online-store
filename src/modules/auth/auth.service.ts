@@ -10,9 +10,11 @@ import type {
 
 import envConfig from "../../config/config";
 import { HttpError } from "../../errorHandler/httpError.handler";
+import { redisClient } from "../../redis";
 import BanUserModel from "../users/models/BanUser.model";
 import UserModel from "../users/models/User.model";
 import usersService from "../users/users.service";
+import transporter from "./config/nodemailer";
 
 const register = (userData: RegisterUserData) => {
   return usersService.create(userData);
@@ -62,4 +64,25 @@ const updatePassword = async (userId: string, updateData: UpdatePasswordData) =>
   return updatedUser;
 };
 
-export default { register, login, getMe, updateMe, updatePassword };
+const forgetPassword = async (email: string) => {
+  const isExistUser = await UserModel.findOne({ email });
+
+  if (!isExistUser) throw new HttpError("user is not found", 404);
+
+  const resetToken: string = crypto.randomUUID().toString();
+
+  await redisClient.set(email, resetToken, { EX: 60 * 3 }); // 3 min EX time
+
+  // nodemailer config options
+  const mailOptions = {
+    from: envConfig.email.username,
+    to: email,
+    subject: "Reset Password Link",
+    html: `<h2>Hi, ${isExistUser.firstName}</h2>
+    <a href="${envConfig.clientUrl}/auth/reset-password?token=${resetToken}">Reset Password Link</a>`,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+export default { register, login, getMe, updateMe, updatePassword, forgetPassword };

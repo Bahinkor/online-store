@@ -78,10 +78,28 @@ const updatePasswordHandler: RequestHandler = async (
   }
 };
 
+const forgetPasswordHandler: RequestHandler = async (
+  req: any,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    await authService.forgetPassword(req.body.email);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Password reset link sent successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 export default {
   registerHandler,
   loginHandler,
   getMeHandler,
   updateMeHandler,
   updatePasswordHandler,
+  forgetPasswordHandler,
 };
