@@ -95,6 +95,23 @@ const forgetPasswordHandler: RequestHandler = async (
   }
 };
 
+const resetPasswordHandler: RequestHandler = async (
+  req: any,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    await authService.resetPassword(req.body);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Password reset successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 export default {
   registerHandler,
   loginHandler,
@@ -102,4 +119,5 @@ export default {
   updateMeHandler,
   updatePasswordHandler,
   forgetPasswordHandler,
+  resetPasswordHandler,
 };

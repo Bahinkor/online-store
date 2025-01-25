@@ -14,6 +14,12 @@ export interface UpdatePasswordData {
   password: string;
 }
 
+export interface ResetPasswordData {
+  email: string;
+  password: string;
+  token: string;
+}
+
 export interface LoginUserData {
   email: string;
   password: string;

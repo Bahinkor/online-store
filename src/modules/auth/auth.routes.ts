@@ -6,6 +6,7 @@ import authController from "./auth.controller";
 import { forgetPasswordValidator } from "./validators/forgetPassword.validator";
 import { loginUserValidator } from "./validators/loginUser.validator";
 import { registerUserValidator } from "./validators/registerUser.validator";
+import { resetPasswordValidator } from "./validators/resetPassword.validator";
 import { updateMeValidator } from "./validators/updateMe.validator";
 import { updatePasswordValidator } from "./validators/updatePassword.validator";
 
@@ -36,6 +37,8 @@ authRouter
   .route("/forget-password")
   .post(validatorMiddleware(forgetPasswordValidator), authController.forgetPasswordHandler);
 
-authRouter.route("/reset-password").put();
+authRouter
+  .route("/reset-password")
+  .put(validatorMiddleware(resetPasswordValidator), authController.resetPasswordHandler);
 
 export default authRouter;

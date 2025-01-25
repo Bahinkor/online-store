@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import type {
   LoginUserData,
   RegisterUserData,
+  ResetPasswordData,
   UpdateMeData,
   UpdatePasswordData,
 } from "./types/types";
@@ -71,7 +72,7 @@ const forgetPassword = async (email: string) => {
 
   const resetToken: string = crypto.randomUUID().toString();
 
-  await redisClient.set(email, resetToken, { EX: 60 * 3 }); // 3 min EX time
+  await redisClient.set(email, resetToken, { EX: 60 * 5 }); // 5 min EX time
 
   // nodemailer config options
   const mailOptions = {
@@ -85,4 +86,17 @@ const forgetPassword = async (email: string) => {
   await transporter.sendMail(mailOptions);
 };
 
-export default { register, login, getMe, updateMe, updatePassword, forgetPassword };
+const resetPassword = async (reqbody: ResetPasswordData) => {
+  const { email, password, token } = reqbody;
+  const tokenData = await redisClient.get(email);
+
+  if (!tokenData) throw new HttpError("Invalid or expired reset token", 400);
+
+  if (token !== tokenData) throw new HttpError("Invalid reset token", 400);
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  await UserModel.findOneAndUpdate({ email }, { password: hashedPassword });
+};
+
+export default { register, login, getMe, updateMe, updatePassword, forgetPassword, resetPassword };
