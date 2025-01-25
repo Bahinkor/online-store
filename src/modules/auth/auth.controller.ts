@@ -61,4 +61,27 @@ const updateMeHandler: RequestHandler = async (req: any, res: Response, next: Ne
   }
 };
 
-export default { registerHandler, loginHandler, getMeHandler, updateMeHandler };
+const updatePasswordHandler: RequestHandler = async (
+  req: any,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    await authService.updatePassword(req.user._id, req.body);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Password updated successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default {
+  registerHandler,
+  loginHandler,
+  getMeHandler,
+  updateMeHandler,
+  updatePasswordHandler,
+};

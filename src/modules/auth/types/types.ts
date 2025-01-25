@@ -10,6 +10,10 @@ export interface UpdateMeData {
   lastName: string;
 }
 
+export interface UpdatePasswordData {
+  password: string;
+}
+
 export interface LoginUserData {
   email: string;
   password: string;

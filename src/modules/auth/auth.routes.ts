@@ -6,6 +6,7 @@ import authController from "./auth.controller";
 import { loginUserValidator } from "./validators/loginUser.validator";
 import { registerUserValidator } from "./validators/registerUser.validator";
 import { updateMeValidator } from "./validators/updateMe.validator";
+import { updatePasswordValidator } from "./validators/updatePassword.validator";
 
 const authRouter = express.Router();
 
@@ -20,10 +21,17 @@ authRouter
 authRouter
   .route("/me")
   .get(authGuard, authController.getMeHandler)
-  .post(authGuard, validatorMiddleware(updateMeValidator), authController.updateMeHandler);
+  .put(authGuard, validatorMiddleware(updateMeValidator), authController.updateMeHandler);
 
-authRouter.route("/update-password").post();
+authRouter
+  .route("/update-password")
+  .put(
+    authGuard,
+    validatorMiddleware(updatePasswordValidator),
+    authController.updatePasswordHandler,
+  );
+
 authRouter.route("/forget-password").post();
-authRouter.route("/reset-password").post();
+authRouter.route("/reset-password").put();
 
 export default authRouter;
