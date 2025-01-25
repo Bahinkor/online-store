@@ -34,4 +34,31 @@ const loginHandler: RequestHandler = async (req: Request, res: Response, next: N
   }
 };
 
-export default { registerHandler, loginHandler };
+const getMeHandler: RequestHandler = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const user = await authService.getMe(req.user._id);
+
+    res.status(200).json({
+      data: user,
+      statusCode: 200,
+      message: "User retrieved successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+const updateMeHandler: RequestHandler = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    await authService.updateMe(req.user._id, req.body);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "User updated successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default { registerHandler, loginHandler, getMeHandler, updateMeHandler };

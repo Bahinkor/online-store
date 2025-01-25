@@ -5,6 +5,11 @@ export interface RegisterUserData {
   password: string;
 }
 
+export interface UpdateMeData {
+  firstName: string;
+  lastName: string;
+}
+
 export interface LoginUserData {
   email: string;
   password: string;

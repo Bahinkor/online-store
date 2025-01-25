@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import type { LoginUserData, RegisterUserData } from "./types/types";
+import type { LoginUserData, RegisterUserData, UpdateMeData } from "./types/types";
 
 import envConfig from "../../config/config";
 import { HttpError } from "../../errorHandler/httpError.handler";
@@ -37,4 +37,14 @@ const login = async (userData: LoginUserData) => {
   return accessToken;
 };
 
-export default { register, login };
+const getMe = async (userId: string) => {
+  return UserModel.findOne({ _id: userId }).select("-password -__v").lean();
+};
+
+const updateMe = async (userId: string, updateData: UpdateMeData) => {
+  const updatedUser = await UserModel.findOneAndUpdate({ _id: userId }, updateData);
+
+  return updatedUser;
+};
+
+export default { register, login, getMe, updateMe };
