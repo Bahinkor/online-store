@@ -6,6 +6,7 @@ import helmet from "helmet";
 import errorHandlerMiddleware from "./middlewares/errorHandler.middleware";
 import routeNotFoundMiddleware from "./middlewares/notFound.middleware";
 import authRouter from "./modules/auth/auth.routes";
+import categoryRouter from "./modules/categories/categories.routes";
 import userRouter from "./modules/users/users.routes";
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(cookieParser());
 // routes
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/categories", categoryRouter);
 
 // error handler middlewares
 app.use(routeNotFoundMiddleware);
