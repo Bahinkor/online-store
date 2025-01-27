@@ -20,4 +20,8 @@ const create = async (categoryData: CategoryType) => {
   await CategoryModel.create({ title, slug: cleanSlug });
 };
 
-export default { getAll, create };
+const findOne = (slug: string) => {
+  return CategoryModel.find({ categories: [slug] });
+};
+
+export default { getAll, create, findOne };

@@ -18,6 +18,6 @@ categoryRouter
     categoriesController.createHandler,
   );
 
-categoryRouter.route("/:slug").get().delete();
+categoryRouter.route("/:slug").get(categoriesController.getOneHandler).delete();
 
 export default categoryRouter;

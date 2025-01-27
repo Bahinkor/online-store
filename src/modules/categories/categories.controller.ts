@@ -29,4 +29,19 @@ const createHandler: RequestHandler = async (req: any, res: Response, next: Next
   }
 };
 
-export default { getAllHandler, createHandler };
+const getOneHandler: RequestHandler = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const { slug } = req.params;
+    const products = await categoriesService.findOne(slug);
+
+    res.status(200).json({
+      data: products,
+      statusCode: 200,
+      message: "Category fetched successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default { getAllHandler, createHandler, getOneHandler };
