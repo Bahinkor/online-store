@@ -18,6 +18,9 @@ categoryRouter
     categoriesController.createHandler,
   );
 
-categoryRouter.route("/:slug").get(categoriesController.getOneHandler).delete();
+categoryRouter
+  .route("/:slug")
+  .get(categoriesController.getOneHandler)
+  .delete(authGuard, adminGuard, categoriesController.removeHandler);
 
 export default categoryRouter;

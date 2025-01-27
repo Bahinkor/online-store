@@ -21,7 +21,13 @@ const create = async (categoryData: CategoryType) => {
 };
 
 const findOne = (slug: string) => {
-  return CategoryModel.find({ categories: [slug] });
+  return CategoryModel.find({ categories: { $in: slug } });
 };
 
-export default { getAll, create, findOne };
+const remove = async (slug: string) => {
+  const deletedCategory = await CategoryModel.findOneAndDelete({ slug });
+
+  if (!deletedCategory) throw new HttpError("Category not found", 404);
+};
+
+export default { getAll, create, findOne, remove };

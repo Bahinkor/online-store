@@ -44,4 +44,18 @@ const getOneHandler: RequestHandler = async (req: any, res: Response, next: Next
   }
 };
 
-export default { getAllHandler, createHandler, getOneHandler };
+const removeHandler: RequestHandler = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const { slug } = req.params;
+    await categoriesService.remove(slug);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Category removed successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default { getAllHandler, createHandler, getOneHandler, removeHandler };
