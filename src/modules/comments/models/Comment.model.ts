@@ -24,6 +24,10 @@ const commentSchema = new mongoose.Schema({
     ref: "Comment",
     required: true,
   },
+  isAccept: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const CommentModel = mongoose.models.Comment ?? mongoose.model("Comment", commentSchema);
