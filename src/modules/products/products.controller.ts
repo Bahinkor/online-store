@@ -12,4 +12,18 @@ const getAllHandler: RequestHandler = async (req: any, res: Response, next: Next
   });
 };
 
-export default { getAllHandler };
+const createHandler: RequestHandler = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const product = await productsService.create();
+
+    res.status(201).json({
+      data: product,
+      statusCode: 201,
+      message: "Product created successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default { getAllHandler, createHandler };

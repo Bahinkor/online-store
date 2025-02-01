@@ -4,4 +4,6 @@ const getAll = () => {
   return ProductModel.find().populate("category").lean();
 };
 
-export default { getAll };
+const create = async () => {};
+
+export default { getAll, create };
