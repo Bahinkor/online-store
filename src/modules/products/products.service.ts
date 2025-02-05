@@ -32,4 +32,16 @@ const create = async (postData: any, mediaArray: any) => {
   return product;
 };
 
-export default { getAll, create };
+const getOne = async (productId: string) => {
+  const isValidId = isValidObjectId(productId);
+
+  if (!isValidId) throw new HttpError("Product id is invalid", 400);
+
+  const product = await ProductModel.findOne({ _id: productId }).populate("categories").lean();
+
+  if (!product) throw new HttpError("Product not found", 404);
+
+  return product;
+};
+
+export default { getAll, create, getOne };

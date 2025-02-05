@@ -20,6 +20,6 @@ productRouter
     validatorMiddleware(createProductValidator),
     productsController.createHandler,
   );
-productRouter.route("/:id").get().put().delete();
+productRouter.route("/:id").get(productsController.getOneHandler).put().delete();
 
 export default productRouter;
