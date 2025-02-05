@@ -40,4 +40,18 @@ const getOneHandler: RequestHandler = async (req: any, res: Response, next: Next
   }
 };
 
-export default { getAllHandler, createHandler, getOneHandler };
+const deleteHandler: RequestHandler = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    await productsService.remove(id);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Product deleted successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export default { getAllHandler, createHandler, getOneHandler, deleteHandler };

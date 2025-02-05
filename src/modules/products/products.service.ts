@@ -44,4 +44,12 @@ const getOne = async (productId: string) => {
   return product;
 };
 
-export default { getAll, create, getOne };
+const remove = async (productId: string) => {
+  const isValidId = isValidObjectId(productId);
+
+  if (!isValidId) throw new HttpError("Product id is invalid", 400);
+
+  await ProductModel.findByIdAndDelete(productId);
+};
+
+export default { getAll, create, getOne, remove };
