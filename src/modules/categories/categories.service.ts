@@ -3,6 +3,7 @@ import slugify from "slugify";
 import type { CategoryType } from "./types/types";
 
 import { HttpError } from "../../errorHandler/httpError.handler";
+import ProductModel from "../products/models/Product.model";
 import CategoryModel from "./models/Category.model";
 
 const getAll = () => {
@@ -20,8 +21,12 @@ const create = async (categoryData: CategoryType) => {
   await CategoryModel.create({ title, slug: cleanSlug });
 };
 
-const findOne = (slug: string) => {
-  return CategoryModel.find({ categories: { $in: slug } });
+const findOne = async (slug: string) => {
+  const categoryDoc: any = await CategoryModel.findOne({ slug }).lean();
+
+  if (!categoryDoc) throw new HttpError("Category not found", 404);
+
+  return ProductModel.find({ categories: { $in: categoryDoc._id } });
 };
 
 const remove = async (slug: string) => {

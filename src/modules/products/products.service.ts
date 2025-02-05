@@ -5,7 +5,7 @@ import CategoryModel from "../categories/models/Category.model";
 import ProductModel from "./models/Product.model";
 
 const getAll = () => {
-  return ProductModel.find().populate("category").lean();
+  return ProductModel.find().populate("categories").lean();
 };
 
 const create = async (postData: any, mediaArray: any) => {
