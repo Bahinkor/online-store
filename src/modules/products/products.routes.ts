@@ -24,7 +24,13 @@ productRouter
 productRouter
   .route("/:id")
   .get(productsController.getOneHandler)
-  .put()
+  .put(
+    authGuard,
+    adminGuard,
+    uploader.array("images", 5),
+    validatorMiddleware(createProductValidator),
+    productsController.updateHandler,
+  )
   .delete(authGuard, adminGuard, productsController.deleteHandler);
 
 export default productRouter;

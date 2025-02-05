@@ -40,6 +40,20 @@ const getOneHandler: RequestHandler = async (req: any, res: Response, next: Next
   }
 };
 
+const updateHandler: RequestHandler = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+    await productsService.update(id, req.body, req.files);
+
+    res.status(200).json({
+      statusCode: 200,
+      message: "Product updated successfully",
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 const deleteHandler: RequestHandler = async (req: any, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
@@ -54,4 +68,4 @@ const deleteHandler: RequestHandler = async (req: any, res: Response, next: Next
   }
 };
 
-export default { getAllHandler, createHandler, getOneHandler, deleteHandler };
+export default { getAllHandler, createHandler, getOneHandler, deleteHandler, updateHandler };
