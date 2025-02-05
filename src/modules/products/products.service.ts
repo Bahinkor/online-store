@@ -9,23 +9,23 @@ const getAll = () => {
 };
 
 const create = async (postData: any, mediaArray: any) => {
-  const categoryValidationResult = postData.categories.map(async (category: string) => {
-    const isValidIs = isValidObjectId(category);
+  const { categories } = postData;
 
-    if (!isValidIs) return false;
+  if (categories.length === 0) throw new HttpError("category is required", 400);
 
-    const categoryDoc = await CategoryModel.findOne({ _id: category });
+  if (!categories.every((category: string) => isValidObjectId(category)))
+    throw new HttpError("Category id is invalid", 400);
 
-    if (!categoryDoc) return false;
-  });
+  const existingCategories = await CategoryModel.find({ _id: { $in: categories } });
 
-  if (!categoryValidationResult[0]) throw new HttpError("invalid category id", 400);
+  if (existingCategories.length !== categories.length)
+    throw new HttpError("Category id is not found", 404);
 
-  if (mediaArray || mediaArray.length === 0) {
-    throw new HttpError("Image file is required", 400);
+  if (!mediaArray || mediaArray.length === 0) {
+    throw new HttpError("Images file is required", 400);
   }
 
-  const mediaUrlArray = mediaArray.map((fileName: string) => `images/${fileName}`);
+  const mediaUrlArray = mediaArray.map((file: Express.Multer.File) => `images/${file.filename}`);
 
   const product = await ProductModel.create({ ...postData, images: mediaUrlArray });
 

@@ -14,10 +14,9 @@ const getAllHandler: RequestHandler = async (req: any, res: Response, next: Next
 
 const createHandler: RequestHandler = async (req: any, res: Response, next: NextFunction) => {
   try {
-    const product = await productsService.create(req.body, req.files);
+    await productsService.create(req.body, req.files);
 
     res.status(201).json({
-      data: product,
       statusCode: 201,
       message: "Product created successfully",
     });
